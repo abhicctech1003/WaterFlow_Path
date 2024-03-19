@@ -71,7 +71,5 @@ bool  Point3D::operator==(const Point3D& other) const
 
     if (mX == other.mX and mY == other.mY and mZ == other.mZ)
         return true;
-    /*if (mX != other.mX and mY != other.mY and mZ != other.mZ)
-        return false;*/
     return false;
 }

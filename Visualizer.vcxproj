@@ -64,6 +64,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
   </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>./headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="Configuration">
     <ClCompile>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -99,42 +104,39 @@
     </QtMoc>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Findpath.cpp" />
-    <ClCompile Include="HighestPoint.cpp" />
-    <ClCompile Include="STLWriter.cpp" />
-    <ClCompile Include="Waterpath.cpp" />
-    <ClInclude Include="Findpath.h" />
-    <ClInclude Include="HighestPoint.h" />
-    <ClInclude Include="STLWriter.h" />
-    <ClInclude Include="Triangle.h" />
-    <ClInclude Include="Triangulation.h" />
-    <ClInclude Include="Waterpath.h" />
+    <ClCompile Include="src\Findpath.cpp" />
+    <ClCompile Include="src\MathUtility.cpp" />
+    <ClCompile Include="src\OpenGLWindow.cpp" />
+    <ClCompile Include="src\Point3D.cpp" />
+    <ClCompile Include="src\Reader.cpp" />
+    <ClCompile Include="src\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\Triangle.cpp" />
+    <ClCompile Include="src\Triangulation.cpp" />
+    <ClCompile Include="src\Visualizer.cpp" />
     <QtRcc Include="Visualizer.qrc" />
-    <QtMoc Include="Visualizer.h" />
-    <ClCompile Include="OpenGLWindow.cpp" />
-    <ClCompile Include="Point3D.cpp" />
-    <ClCompile Include="Reader.cpp" />
-    <ClCompile Include="Triangle.cpp" />
-    <ClCompile Include="Triangulation.cpp" />
-    <ClCompile Include="Visualizer.cpp" />
     <ClCompile Include="main.cpp">
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
       <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
       <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
     </ClCompile>
-    <QtMoc Include="OpenGLWindow.h" />
-    <ClInclude Include="Point3D.h" />
-    <ClInclude Include="Reader.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClCompile Include="stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="cube2.stl" />
     <None Include="Terrain.stl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="headers\Findpath.h" />
+    <ClInclude Include="headers\MathUtility.h" />
+    <ClInclude Include="headers\Point3D.h" />
+    <ClInclude Include="headers\Reader.h" />
+    <ClInclude Include="headers\stdafx.h" />
+    <ClInclude Include="headers\Triangle.h" />
+    <ClInclude Include="headers\Triangulation.h" />
+    <QtMoc Include="headers\Visualizer.h" />
+    <QtMoc Include="headers\OpenGLWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

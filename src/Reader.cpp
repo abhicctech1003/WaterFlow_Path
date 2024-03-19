@@ -21,12 +21,11 @@ Reader ::~Reader()
 
 void Reader::readFile(Triangulation& triangualtion)
 {
-    std::ifstream readFromFile("C:\\Users\\Om Bothe\\Downloads\\Waterpath\\Waterpath\\Terrain.stl");
+    std::ifstream readFromFile("Terrain.stl");
 
     map<Point3D, int> mapppedPoint3D;
     map<Point3D, int> mappedNormals;
     string line;
-    //vector<Triangle> tri;
 
     bool ans = readFromFile.is_open();
     if (ans)

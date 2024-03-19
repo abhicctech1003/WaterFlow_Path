@@ -9,7 +9,6 @@
 #include "Triangulation.h"
 #include "Point3D.h"
 #include "Reader.h"
-#include "Waterpath.h"
 #include "Findpath.h"
 
 Triangulation triangulation;
@@ -22,8 +21,9 @@ int totalVertices;
 int totalCoordinates;
 GLfloat* vertices;
 GLfloat* colors;
-//GLfloat* waterFlow;
-//GLfloat* colorsPath;
+vector<Point3D> waterPath;
+vector<GLfloat> waterFlow;
+vector<GLfloat> colorsPath;
 
 OpenGLWindow::OpenGLWindow(const QColor& background, QMainWindow* parent) :
     mBackground(background)
@@ -54,148 +54,18 @@ void OpenGLWindow::reset()
 
 void OpenGLWindow::paintGL()
 {
-
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     mProgram->bind();
 
     QMatrix4x4 matrix;
     QMatrix4x4 scaleMatrix;
     QMatrix4x4 rotationMatrix;
-    //matrix.ortho(-10.0f, 10.0f, -10.0f, 10.0f, 0.1f, 100.0f);
     matrix.perspective(60.0f * scaleFactor, 4.0f / 3.0f * scaleFactor, 0.1f, 1000.0f);
-    matrix.translate(0, 0, -10);
+    matrix.translate(-20, -5, -170);
     matrix.rotate(rotationAngle);
-
     mProgram->setUniformValue(m_matrixUniform, matrix);
 
     
-
-    
-
-    //Triangulation triangulation;
-    //Reader reader;
-    //reader.readFile(triangulation);
-
-    //vector<Point3D>& points = triangulation.uniquePoints();
-    //vector<Triangle>& triangles = triangulation.triangles();
-
-    //static const int verticesPerTriangle = 3;
-    //static const int coordinatesPerVertex = 3;
-    //static const int totalVertices = verticesPerTriangle * triangles.size();
-    //static const int totalCoordinates = totalVertices * coordinatesPerVertex;
-
-    //GLfloat* vertices = new GLfloat[totalCoordinates];
-    //int currentIndex = 0;
-
-    //for (const Triangle& triangle : triangles)
-    //{
-    //    // Iterate over each vertex of the triangle
-    //    for (int i = 0; i < verticesPerTriangle; ++i)
-    //    {
-    //        // Get the index of the current vertex of the triangle
-    //        int vertexIndex;
-    //        if (i == 0)
-    //            vertexIndex = triangle.v1();
-    //        else if (i == 1)
-    //            vertexIndex = triangle.v2();
-    //        else
-    //            vertexIndex = triangle.v3();
-
-    //        // Append coordinates of the vertex to vertices array
-    //        vertices[currentIndex++] = points[vertexIndex].x();
-    //        vertices[currentIndex++] = points[vertexIndex].y();
-    //        vertices[currentIndex++] = points[vertexIndex].z();
-    //    }
-    //}
-    //size_t sizeOfVertices = totalCoordinates * sizeof(GLfloat);
-
-    //GLfloat* colors = new GLfloat[totalCoordinates];
-
-    //for (int i = 0; i < totalCoordinates; i += 3) {
-    //    colors[i] = 1.0f;
-    //    colors[i + 1] = 1.0f;
-    //    colors[i + 2] = 0.0f;
-    //}
-
-
-    // WaterPath ww;
-    //HighestPoint pp;
-    //vector<Point3D> waterPath;
-
-    //GLfloat* waterFlow = new GLfloat[waterPath.size()];
-    //Point3D firstPoint;
-    //firstPoint = pp.findHighestPoint(triangulation);
-    //pp.findNextPoint(firstPoint, triangulation, 1.0, waterPath);
-    //for (int i = 0; i < waterPath.size(); i+=3) {
-    //    waterFlow[i] = waterPath[i].x();
-    //    waterFlow[i+1] = waterPath[i].y();
-    //    waterFlow[i+2] = waterPath[i].z();
-    //    
-    //}
-
-
-    //GLfloat* colorsPath = new GLfloat[waterPath.size()];
-
-    //for (int i = 0; i < waterPath.size(); i += 3) {
-    //    colorsPath[i] = 0.0f;
-    //    colorsPath[i + 1] = 0.0f;
-    //    colorsPath[i + 2] = 1.0f;
-    //}
-
-    /*GLfloat waterFlow1[] = {
-        73.01, 88.88, 47.31,
-        72.61, 89.28, 47.17,
-        72.22, 89.68, 46.94,
-        71.82, 90.07, 46.67,
-        71.42, 90.47, 46.25,
-        71.03, 90.87, 45.81
-    };
-
-    GLfloat waterFlowColor[] = {
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0,
-        0.0, 0.0, 1.0
-    };*/
-
-    WaterPath ww;
-    HighestPoint pp;
-    path ff;
-
-    vector<Point3D> waterPath;
-
-    Point3D firstPoint;
-    /*firstPoint = pp.findHighestPoint(triangulation);
-    pp.findNextPoint(firstPoint, triangulation, 1.0, waterPath);*/
-    waterPath = ff.findpath(triangulation);
-    vector<GLfloat> waterFlow;
-    //waterFlow = new GLfloat[waterPath.size()];
-    for (int i = 0; i < waterPath.size(); i++) {
-        /*waterFlow[i] = waterPath[i].x();
-        waterFlow[i + 1] = waterPath[i].y();
-        waterFlow[i + 2] = waterPath[i].z();*/
-        waterFlow.push_back(waterPath[i].x());
-        waterFlow.push_back(waterPath[i].y());
-        waterFlow.push_back(waterPath[i].z());
-
-    }
-
-    vector<GLfloat> colorsPath;
-    //colorsPath = new GLfloat[waterPath.size()];
-
-    for (int i = 0; i < waterPath.size(); i++) {
-        /*colorsPath[i] = 0.0f;
-        colorsPath[i + 1] = 0.0f;
-        colorsPath[i + 2] = 1.0f;*/
-        colorsPath.push_back(0.0f);
-        colorsPath.push_back(0.0f);
-        colorsPath.push_back(1.0f);
-
-    }
-
     glVertexAttribPointer(m_posAttr, 3, GL_FLOAT, GL_FALSE, 0, vertices);
     glVertexAttribPointer(m_colAttr, 3, GL_FLOAT, GL_FALSE, 0, colors);
 
@@ -211,9 +81,8 @@ void OpenGLWindow::paintGL()
     glEnableVertexAttribArray(m_posAttr);
     glEnableVertexAttribArray(m_colAttr);
 
-    //int size = waterPath.size();
-    glLineWidth(20.0f);
-    glDrawArrays(GL_LINE_LOOP, 0, waterFlow.size()/3);
+    glLineWidth(5.0f);
+    glDrawArrays(GL_LINE_STRIP, 0, waterFlow.size()/3);
     glLineWidth(1.0f);
 
     glDisableVertexAttribArray(m_colAttr);
@@ -238,7 +107,10 @@ void OpenGLWindow::initializeGL()
         "void main() {\n"
         "   gl_FragColor = col;\n"
         "}\n";
+
     rotationAngle = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 1.0f, 0.0f);
+    rotationAngle1 = QQuaternion::fromAxisAndAngle(0.0f, 1.0f, 0.0f, 0.0f);
+    rotationAngle2 = QQuaternion::fromAxisAndAngle(0.0f, 0.0f, 0.0f, 1.0f);
 
     initializeOpenGLFunctions();
 
@@ -256,7 +128,6 @@ void OpenGLWindow::initializeGL()
     //--------------------------------------------
     
     reader.readFile(triangulation);
-
 
     verticesPerTriangle = 3;
     coordinatesPerVertex = 3;
@@ -292,39 +163,28 @@ void OpenGLWindow::initializeGL()
 
     for (int i = 0; i < totalCoordinates; i += 3) {
         colors[i] = 1.0f;
-        colors[i + 1] = 1.0f;
+        colors[i + 1] = 0.0;
         colors[i + 2] = 0.0f;
     }
 
+    Findpath findWaterPath;
+    waterPath = findWaterPath.findpath(triangulation);
+    
+    for (int i = 0; i < waterPath.size(); i++) {
 
-    //WaterPath ww;
-    //HighestPoint pp;
-    //path ff;
-    //
+        waterFlow.push_back(waterPath[i].x());
+        waterFlow.push_back(waterPath[i].y());
+        waterFlow.push_back(waterPath[i].z());
 
-    //vector<Point3D> waterPath;
+    }
 
-    //
-    //Point3D firstPoint;
-    ///*firstPoint = pp.findHighestPoint(triangulation);
-    //pp.findNextPoint(firstPoint, triangulation, 1.0, waterPath);*/
-    //waterPath = ff.findpath(triangulation);
-    //waterFlow = new GLfloat[waterPath.size()];
-    //for (int i = 0; i < waterPath.size(); i += 3) {
-    //    waterFlow[i] = waterPath[i].x();
-    //    waterFlow[i + 1] = waterPath[i].y();
-    //    waterFlow[i + 2] = waterPath[i].z();
+    for (int i = 0; i < waterPath.size(); i++) {
 
-    //}
+        colorsPath.push_back(0.0f);
+        colorsPath.push_back(0.0f);
+        colorsPath.push_back(1.0f);
 
-
-    //colorsPath = new GLfloat[waterPath.size()];
-
-    //for (int i = 0; i < waterPath.size(); i += 3) {
-    //    colorsPath[i] = 0.0f;
-    //    colorsPath[i + 1] = 0.0f;
-    //    colorsPath[i + 2] = 1.0f;
-    //}
+    }
 
 }
 void OpenGLWindow::mouseMoveEvent(QMouseEvent* event)

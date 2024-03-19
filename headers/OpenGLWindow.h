@@ -49,6 +49,8 @@ private:
     GLint m_colAttr = 0;
     GLint m_matrixUniform = 0;
     QQuaternion rotationAngle;
+    QQuaternion rotationAngle1;
+    QQuaternion rotationAngle2;
     QPoint lastPos;
     float scaleFactor = 1.0;
 };
